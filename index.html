@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پنل فرماندهی عملیات پهپاد رادار گریز | حسین لعلیان</title>
+  <style>
+    :root {
+      --bg: #060a12;
+      --card: #0d1829;
+      --border: #162b48;
+      --accent: #00e5ff;
+      --text: #e2e8f0;
+      --green: #00ff66;
+      --warn: #ffaa00;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, system-ui, sans-serif; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-image: radial-gradient(#0f223d 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      border-top: 3px solid var(--accent);
+    }
+    h1 {
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 0.82rem;
+      color: #38bdf8;
+      font-weight: 500;
+      opacity: 0.95;
+    }
+    .grid-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      position: relative;
+    }
+    .card-title { font-size: 0.78rem; color: #8fa0b5; margin-bottom: 5px; }
+    .val { font-size: 1.4rem; font-weight: bold; color: #fff; }
+    .sub { font-size: 0.75rem; color: var(--accent); margin-top: 4px; }
+    
+    .grid-radar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 768px) {
+      .grid-radar { grid-template-columns: 1fr; }
+    }
+    .radar-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    canvas {
+      background: #030710;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+    }
+    .admin-box {
+      margin-top: 10px;
+      padding: 8px;
+      background: #07101d;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    input[type="password"] {
+      background: #02050a;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    button {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+    [contenteditable="true"] { outline: 1px dashed var(--warn); background: rgba(255, 170, 0, 0.08); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 8px; }
+    th, td { border: 1px solid var(--border); padding: 6px; text-align: center; }
+    th { background: rgba(0, 229, 255, 0.08); color: var(--accent); }
+    .status-ok { color: var(--green); font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 id="mainTitle" class="ew" data-k="title">پنل فرماندهی عملیات پهپاد رادار گریز</h1>
+    <div class="subtitle ew" data-k="subtitle">برگرفته از پرپوزال حسین لعلیان سال ۱۳۹۵ – رتبه ۳۲ کنکور دکتری</div>
+  </header>
+
+  <!-- کارت‌های تلمتری و سنسورها -->
+  <div class="grid-metrics">
+    <div class="card">
+      <div class="card-title ew" data-k="t1">فاصله تا هدف و برد تاکتیکی</div>
+      <div class="val ew" data-k="v1">0.5 KM</div>
+      <div class="sub ew" data-k="s1">الگوریتم تخمین ANFIS</div>
+    </div>
+    <div class="card">
+      <div class="card-title ew" data-k="t2">ارتفاع عملیاتی</div>
+      <div class="val ew" data-k="v2">42,500 FT</div>
+      <div class="sub ew" data-k="s2">سیستم خودکار رادار گریز</div>
+    </div>
+    <div class="card">
+      <div class="card-title ew" data-k="t3">سطح مقطع راداری (RCS)</div>
+      <div class="val ew" data-k="v3">-35 dBsm</div>
+      <div class="sub ew" data-k="s3">کنترل بهینه فازی</div>
+    </div>
+    <div class="card">
+      <div class="card-title ew" data-k="t4">پایداری پرواز</div>
+      <div class="val status-ok ew" data-k="v4">98.7%</div>
+      <div class="sub ew" data-k="s4">تاییدیه کنترل هوشمند</div>
+    </div>
+  </div>
+
+  <!-- رادار و اطلاعات سیستم -->
+  <div class="grid-radar">
+    <div class="card radar-box">
+      <div class="card-title ew" data-k="rad_lbl">رادار اسکن هوایی و موقعیت‌یابی بلادرنگ</div>
+      <canvas id="radarCanvas" width="260" height="260"></canvas>
+      <div style="font-size:0.75rem; color:var(--accent); margin-top:8px;" class="ew" data-k="rad_sub">
+        TRACK-01 | قفل روی هدف | سیگنال پایدار
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title ew" data-k="comms_lbl">ارتباط فدرال و ایستگاه زمینی</div>
+      <div style="font-size:0.85rem; line-height: 2; margin: 8px 0;">
+        <div>موقعیت مکانی: <b style="color:var(--accent);">35.7219° N, 51.3347° E</b></div>
+        <div>لینک ارتباطی فدرال: <b class="status-ok">f3 OK (متصل)</b></div>
+        <div>ماهواره‌های ناوبری فعال: <b style="color:var(--accent);">14 / 16</b></div>
+        <div>سیستم هشدار صوتی و لرزشی: <b class="status-ok">فعال</b></div>
+      </div>
+      <div class="admin-box">
+        <span id="lock-label" style="font-size:0.75rem; color:var(--warn);">حالت: فقط خواندنی</span>
+        <input type="password" id="adminPass" placeholder="رمز مدیر (admin123)">
+        <button onclick="toggleAdmin()">تغییر حالت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- جدول داده‌های فنی -->
+  <div class="card">
+    <div class="card-title ew" data-k="tbl_lbl">ماتریس پایداری و رفتار سیستم (پروپوزال ۱۳۹۵)</div>
+    <table>
+      <thead>
+        <tr>
+          <th>پارامتر</th>
+          <th>نرخ پایداری</th>
+          <th>خطای تخمین</th>
+          <th>وضعیت عملیات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ew" data-k="c1">کنترل دینامیک با ANFIS</td>
+          <td class="status-ok ew" data-k="c2">99.1%</td>
+          <td class="ew" data-k="c3">0.0014</td>
+          <td class="status-ok ew" data-k="c4">تایید نهایی</td>
+        </tr>
+        <tr>
+          <td class="ew" data-k="c5">بهینه‌سازی مصرف با ژنتیک</td>
+          <td class="status-ok ew" data-k="c6">97.8%</td>
+          <td class="ew" data-k="c7">0.0032</td>
+          <td class="status-ok ew" data-k="c8">تایید نهایی</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let isEditing = false;
+    const STORAGE_KEY = 'uav_stealth_words';
+
+    function loadSaved() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        document.querySelectorAll('.ew').forEach(el => {
+          const k = el.getAttribute('data-k');
+          if (k && saved[k]) el.innerText = saved[k];
+        });
+      } catch(e) {}
+    }
+
+    function saveAll() {
+      if (!isEditing) return;
+      const data = {};
+      document.querySelectorAll('.ew').forEach(el => {
+        const k = el.getAttribute('data-k');
+        if (k) data[k] = el.innerText;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function toggleAdmin() {
+      const pass = document.getElementById('adminPass').value;
+      if (isEditing) {
+        isEditing = false;
+        document.getElementById('lock-label').innerText = 'حالت: فقط خواندنی';
+        document.getElementById('lock-label').style.color = 'var(--warn)';
+        document.querySelectorAll('.ew').forEach(el => el.removeAttribute('contenteditable'));
+        alert('از حالت ویرایش خارج شدید.');
+        return;
+      }
+      if (pass === 'admin123' || pass === '1395') {
+        isEditing = true;
+        document.getElementById('lock-label').innerText = 'حالت: ویرایش آزاد فعال';
+        document.getElementById('lock-label').style.color = 'var(--green)';
+        document.querySelectorAll('.ew').forEach(el => {
+          el.setAttribute('contenteditable', 'true');
+          el.oninput = saveAll;
+        });
+        alert('ورود موفق. اکنون می‌توانید هر متنی را در صفحه مستقیماً لمس و ویرایش کنید.');
+      } else {
+        alert('رمز وارد شده اشتباه است.');
+      }
+    }
+
+    // ترسیم رادار
+    const canvas = document.getElementById('radarCanvas');
+    const ctx = canvas.getContext('2d');
+    let sweepAngle = 0;
+
+    function renderRadar() {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const maxR = cx - 8;
+
+      ctx.fillStyle = 'rgba(3, 7, 16, 0.22)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = '#162b48';
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, (maxR / 3) * i, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(cx, 8); ctx.lineTo(cx, canvas.height - 8);
+      ctx.moveTo(8, cy); ctx.lineTo(canvas.width - 8, cy);
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(sweepAngle);
+      const grad = ctx.createLinearGradient(0, 0, maxR, 0);
+      grad.addColorStop(0, 'rgba(0, 229, 255, 0)');
+      grad.addColorStop(1, 'rgba(0, 229, 255, 0.6)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, maxR, -0.4, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // هدف شبیه‌سازی شده
+      const tx = cx + Math.cos(0.9) * (maxR * 0.6);
+      const ty = cy + Math.sin(0.9) * (maxR * 0.6);
+      ctx.fillStyle = '#00ff66';
+      ctx.beginPath();
+      ctx.arc(tx, ty, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      sweepAngle += 0.04;
+      requestAnimationFrame(renderRadar);
+    }
+
+    window.onload = () => {
+      loadSaved();
+      renderRadar();
+    };
+  </script>
+</body>
+</html>
