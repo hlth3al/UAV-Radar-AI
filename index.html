@@ -6,14 +6,14 @@
     <title>پنل فرماندهی عملیات پهپاد رادار گریز | حسین لعلیان</title>
     <style>
         :root {
-            --bg-base: #060b13;
-            --panel-bg: rgba(10, 25, 47, 0.85);
+            --bg-base: #050a12;
+            --panel-bg: rgba(9, 21, 38, 0.88);
             --neon-cyan: #00f3ff;
             --neon-green: #00ff66;
             --neon-red: #ff3344;
             --neon-amber: #ffaa00;
-            --border-glow: rgba(0, 243, 255, 0.3);
-            --text-dim: #7f9bb3;
+            --border-glow: rgba(0, 243, 255, 0.28);
+            --text-dim: #8ba2b9;
         }
 
         * {
@@ -32,26 +32,26 @@
             flex-direction: column;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0, 50, 100, 0.2) 0%, transparent 80%),
+                radial-gradient(circle at 50% 50%, rgba(0, 60, 120, 0.18) 0%, transparent 80%),
                 linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
             background-size: 100% 100%, 30px 30px, 30px 30px;
         }
 
         header {
-            padding: 15px 25px;
-            background: rgba(6, 15, 28, 0.95);
+            padding: 14px 22px;
+            background: rgba(5, 14, 26, 0.96);
             border-bottom: 2px solid var(--neon-cyan);
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .header-title h1 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--neon-cyan);
             letter-spacing: 0.5px;
             margin-bottom: 4px;
@@ -65,16 +65,16 @@
         .system-status {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: rgba(0, 0, 0, 0.6);
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 6px;
             border: 1px solid var(--border-glow);
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--neon-green);
             box-shadow: 0 0 10px var(--neon-green);
@@ -86,11 +86,40 @@
             100% { opacity: 1; transform: scale(1.1); }
         }
 
+        .security-notice {
+            background: rgba(255, 170, 0, 0.08);
+            border-bottom: 1px solid rgba(255, 170, 0, 0.35);
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            color: #ffe6a3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .security-notice strong {
+            color: var(--neon-amber);
+        }
+
+        .contact-chip {
+            background: rgba(0, 243, 255, 0.12);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
         .container {
             display: grid;
             grid-template-columns: 1fr 1.3fr 1fr;
-            gap: 15px;
-            padding: 15px;
+            gap: 14px;
+            padding: 14px;
             flex: 1;
         }
 
@@ -104,7 +133,7 @@
             background: var(--panel-bg);
             border: 1px solid var(--border-glow);
             border-radius: 8px;
-            padding: 15px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -113,7 +142,7 @@
         }
 
         .panel-box h3 {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: var(--neon-cyan);
             border-bottom: 1px dashed rgba(0, 243, 255, 0.2);
             padding-bottom: 6px;
@@ -129,7 +158,7 @@
         }
 
         .metric-card {
-            background: rgba(0, 15, 30, 0.6);
+            background: rgba(0, 15, 30, 0.65);
             border: 1px solid rgba(0, 243, 255, 0.15);
             border-radius: 6px;
             padding: 10px;
@@ -169,9 +198,9 @@
         }
 
         .alert-banner {
-            padding: 10px;
+            padding: 9px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-align: center;
             font-weight: bold;
             transition: all 0.3s ease;
@@ -195,16 +224,16 @@
             100% { box-shadow: 0 0 16px var(--neon-red); }
         }
 
-        .hil-sync-box {
-            background: rgba(0, 0, 0, 0.4);
-            border-left: 3px solid var(--neon-cyan);
-            padding: 8px 12px;
-            font-size: 0.78rem;
+        .engineering-note {
+            background: rgba(0, 0, 0, 0.45);
+            border-right: 3px solid var(--neon-cyan);
+            padding: 10px 12px;
+            font-size: 0.76rem;
             color: var(--text-dim);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        .hil-sync-box span {
+        .engineering-note span {
             color: var(--neon-green);
             font-weight: bold;
         }
@@ -213,7 +242,7 @@
             display: flex;
             align-items: flex-end;
             gap: 4px;
-            height: 20px;
+            height: 18px;
         }
 
         .signal-bar {
@@ -221,6 +250,19 @@
             background: var(--neon-cyan);
             border-radius: 2px;
             transition: height 0.4s ease;
+        }
+
+        footer {
+            background: rgba(3, 8, 16, 0.95);
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            gap: 10px;
         }
     </style>
 </head>
@@ -232,23 +274,34 @@
             <p>برگرفته از پرپوزال حسین لعلیان؛ سال ۱۳۹۵؛ رتبه ۳۲ کنکور دکتری</p>
         </div>
         <div class="system-status">
-            <div class="status-dot" id="systemStateLed"></div>
-            <div style="font-size: 0.8rem;">
-                وضعیت HIL: <span id="hilStatusText" style="color: var(--neon-green); font-weight: bold;">سنسورها متصل / فعال</span>
+            <div class="status-dot"></div>
+            <div style="font-size: 0.78rem;">
+                هسته شبیه‌سازی: <span style="color: var(--neon-green); font-weight: bold;">HIL / Simulink Active</span>
             </div>
         </div>
     </header>
 
+    <!-- بیانیه حفاظت از مالکیت فکری و سفارشی‌سازی صنعتی -->
+    <div class="security-notice">
+        <div>
+            <strong>اطلاعیه فنی و حقوقی:</strong> به جهت حفاظت از حقوق مالکیت فکری و ممانعت از کپی‌برداری غیرمجاز، این پنل به‌صورت دمو (با داده‌های مقیاس‌گذاری‌شده محدود) ارائه شده است. در صورت سفارش سازمانی، نسخه نهایی متناسب با اتصال به سنسورهای لبه و تجهیزات اویونیک واقعی با بالاترین دقت و پاسخ بهینه کالیبره و تحویل می‌گردد.
+        </div>
+        <a href="mailto:ai.algorithms.ballistics@gmail.com" class="contact-chip">
+            ai.algorithms.ballistics@gmail.com
+        </a>
+    </div>
+
     <main class="container">
         
-        <!-- ستون اول: اتصال سیمولینک و فدرال انفیس -->
+        <!-- ستون اول: تحلیل سیمولینک و فدرال انفیس -->
         <section class="panel-box">
             <h3>شبیه‌سازی HIL و Simulink</h3>
             
-            <div class="hil-sync-box">
-                با متصل شدن به سنسورها، این پنل به‌صورت خودکار همگام‌سازی و فعال شده است.<br>
-                مدل محاسباتی: <span>Simulink Dynamic Core v9.5</span><br>
-                وضعیت حلقه سخت‌افزاری: <span>HIL Synchronized (0.002s)</span>
+            <div class="engineering-note">
+                • معماری سیستم: <span>Simulink Dynamic Core v9.5</span><br>
+                • پردازش در لبه: <span>متصل و خودکار</span><br>
+                • حلقه شبیه‌سازی درجا: <span>HIL Synchronized (0.002s)</span><br>
+                • وضعیت بهینه‌سازی: <span>پاسخ بلادرنگ بهینه‌شده</span>
             </div>
 
             <div class="metric-grid">
@@ -271,23 +324,23 @@
             </div>
 
             <div class="metric-card">
-                <span class="metric-label">قدرت لینک داده فدرال</span>
+                <span class="metric-label">قدرت لینک تلمتری فدرال</span>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
                     <div class="signal-bar-wrap">
-                        <div class="signal-bar" style="height: 30%;"></div>
-                        <div class="signal-bar" style="height: 50%;"></div>
+                        <div class="signal-bar" style="height: 35%;"></div>
+                        <div class="signal-bar" style="height: 55%;"></div>
                         <div class="signal-bar" style="height: 75%;"></div>
                         <div class="signal-bar" style="height: 90%;"></div>
                         <div class="signal-bar" style="height: 100%;"></div>
                     </div>
-                    <span style="font-size: 0.8rem; color: var(--neon-green); font-family: monospace;">F-LINK: STABLE</span>
+                    <span style="font-size: 0.78rem; color: var(--neon-green); font-family: monospace;">F-LINK: ONLINE</span>
                 </div>
             </div>
         </section>
 
         <!-- ستون دوم: رادار واکنشی و خط‌چین تلمتری -->
         <section class="panel-box radar-wrapper">
-            <h3>رادار اسکن و ناوبری تاکتیکی</h3>
+            <h3>رادار تاکتیکی و ردیابی لحظه‌ای</h3>
             <canvas id="radarCanvas" width="380" height="380"></canvas>
             
             <div id="distanceAlert" class="alert-banner alert-normal" style="width: 100%; margin-top: 10px;">
@@ -295,13 +348,13 @@
             </div>
         </section>
 
-        <!-- ستون سوم: تلمتری متحرک و هشدارهای فاصله -->
+        <!-- ستون سوم: تلمتری سنسوری و محاسبات پرواز -->
         <section class="panel-box">
-            <h3>تلمتری موقعیت و سنسورها</h3>
+            <h3>تلمتری موقعیت و سنسورهای متصل</h3>
             
             <div class="metric-grid">
                 <div class="metric-card">
-                    <span class="metric-label">فاصله تا هدف (زنده)</span>
+                    <span class="metric-label">فاصله زنده تا هدف</span>
                     <span class="metric-value" id="valDistance" style="color: var(--neon-cyan);">2.40 KM</span>
                 </div>
                 <div class="metric-card">
@@ -309,26 +362,31 @@
                     <span class="metric-value" id="valAzimuth">045°</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">مختصات GPS (عرض)</span>
+                    <span class="metric-label">موقعیت عرضی GPS</span>
                     <span class="metric-value" id="valLat">35.7219° N</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">مختصات GPS (طول)</span>
+                    <span class="metric-label">موقعیت طولی GPS</span>
                     <span class="metric-value" id="valLon">51.3347° E</span>
                 </div>
             </div>
 
             <div class="metric-card">
-                <span class="metric-label">تحلیل ماتریس پرواز (الگوریتم پرپوزال)</span>
-                <div style="font-size: 0.78rem; line-height: 1.8; color: var(--text-dim); margin-top: 6px;">
+                <span class="metric-label">ماتریس رفتار کنترلی پرپوزال</span>
+                <div style="font-size: 0.75rem; line-height: 1.8; color: var(--text-dim); margin-top: 6px;">
                     • خطای تخمین آنفیس: <span style="color: #fff; font-family: monospace;">&plusmn;0.0018</span><br>
-                    • تاخیر سنسورهای متصل: <span style="color: var(--neon-green); font-family: monospace;">1.4 ms</span><br>
-                    • بهینه‌سازی مسیر پروازی: <span style="color: var(--neon-cyan); font-family: monospace;">فعال (ژنتیک فازی)</span>
+                    • تاخیر حلقه سخت‌افزاری: <span style="color: var(--neon-green); font-family: monospace;">1.4 ms</span><br>
+                    • الگوریتم هدایت: <span style="color: var(--neon-cyan); font-family: monospace;">Nonlinear ANFIS-GA</span>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <footer>
+        <div>مالکیت معنوی طرح و الگوریتم‌ها: <strong>مهندس حسین لعلیان</strong> (سال ۱۳۹۵)</div>
+        <div>جهت مشاوره و پیاده‌سازی صنعتی: <a href="mailto:ai.algorithms.ballistics@gmail.com" style="color: var(--neon-cyan); text-decoration: none;">ai.algorithms.ballistics@gmail.com</a></div>
+    </footer>
 
     <script>
         const canvas = document.getElementById('radarCanvas');
@@ -343,7 +401,7 @@
 
         let angle = 0;
         let target = {
-            distance: 120, // بر حسب پیکسل از مرکز
+            distance: 120,
             targetAngle: Math.PI / 4,
             speed: 0.015,
             dir: 1
@@ -360,7 +418,7 @@
 
             ctx.clearRect(0, 0, width, height);
 
-            // ترسیم دوایر شبکه رادار
+            // دوایر شبکه رادار
             ctx.strokeStyle = 'rgba(0, 243, 255, 0.15)';
             ctx.lineWidth = 1;
             for (let r = maxRadius / 4; r <= maxRadius; r += maxRadius / 4) {
@@ -375,7 +433,7 @@
             ctx.moveTo(10, cy); ctx.lineTo(width - 10, cy);
             ctx.stroke();
 
-            // پرتو اسکن رادار
+            // پرتو اسکن
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(angle);
@@ -389,7 +447,7 @@
             ctx.fill();
             ctx.restore();
 
-            // به‌روزرسانی موقعیت هدف تعاملی
+            // حرکت هدف دینامیک
             target.targetAngle += target.speed * 0.5;
             target.distance += target.dir * 0.25;
 
@@ -399,11 +457,10 @@
             const tx = cx + target.distance * Math.cos(target.targetAngle);
             const ty = cy + target.distance * Math.sin(target.targetAngle);
 
-            // ثبت نقاط خط‌چین تلمتری
+            // ثبت و ترسیم خط‌چین تلمتری
             historyPoints.push({x: tx, y: ty});
             if (historyPoints.length > 25) historyPoints.shift();
 
-            // ترسیم نقطه تلمتری و خط‌چین مسیر
             ctx.strokeStyle = 'rgba(0, 255, 102, 0.5)';
             ctx.setLineDash([4, 4]);
             ctx.beginPath();
@@ -415,16 +472,16 @@
             }
             ctx.stroke();
 
-            // خط چین تلمتری از مرکز به هدف
+            // خط ارتباطی از مبدا به سنسور هدف
             ctx.strokeStyle = 'rgba(0, 243, 255, 0.4)';
             ctx.setLineDash([3, 3]);
             ctx.beginPath();
             ctx.moveTo(cx, cy);
             ctx.lineTo(tx, ty);
             ctx.stroke();
-            ctx.setLineDash([]); // ریست خط چین
+            ctx.setLineDash([]);
 
-            // نقطه هدف
+            // نقطه سیگنال هدف
             ctx.fillStyle = '#ff3344';
             ctx.shadowColor = '#ff3344';
             ctx.shadowBlur = 10;
@@ -433,14 +490,14 @@
             ctx.fill();
             ctx.shadowBlur = 0;
 
-            // محاسبات فاصله واقعی
+            // تبدیل فاصله به واحد برد تاکتیکی
             const realDistanceKm = (target.distance / (maxRadius / 5)).toFixed(2);
             const degree = Math.round((target.targetAngle * (180 / Math.PI)) % 360);
 
             valDistance.innerText = realDistanceKm + ' KM';
             valAzimuth.innerText = String(degree).padStart(3, '0') + '°';
 
-            // سیستم هشدار کم و زیاد شدن فاصله
+            // سیستم آلارم فاصله بحرانی
             if (realDistanceKm < 1.5) {
                 alertBox.className = 'alert-banner alert-warning';
                 alertBox.innerText = 'هشدار: کاهش بحرانی فاصله تا مرز عملیاتی (' + realDistanceKm + ' KM)';
@@ -449,7 +506,7 @@
                 alertBox.innerText = 'هشدار: افزایش بیش از حد فاصله و تضعیف لینک (' + realDistanceKm + ' KM)';
             } else {
                 alertBox.className = 'alert-banner alert-normal';
-                alertBox.innerText = 'وضعیت پایدار: فاصله در محدوده مجاز تلمتری (' + realDistanceKm + ' KM)';
+                alertBox.innerText = 'وضعیت پایدار: فاصله در محدوده بهینه تلمتری (' + realDistanceKm + ' KM)';
             }
 
             angle += 0.04;
@@ -470,7 +527,6 @@
             valLon.innerText = (51.3347 + parseFloat(lonOffset)).toFixed(4) + '° E';
         }, 1500);
 
-        // اجرای رادار
         drawRadar();
     </script>
 </body>
