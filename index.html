@@ -3,144 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پنل فرماندهی عملیات پهپاد رادار گریز | UAV-Radar-AI</title>
+    <title>پنل فرماندهی عملیات پهپاد رادار گریز | هوش مصنوعی حسین لعلیان</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-main: #050b14;
-            --panel-bg: rgba(10, 20, 34, 0.95);
-            --border-ui: #1e3a5f;
-            --accent-radar: #00f0ff;
-            --accent-stealth: #7000ff;
-            --accent-green: #00ff88;
-            --accent-warn: #ffaa00;
-            --accent-danger: #ff0055;
-            --text-light: #e6f1ff;
-            --text-dim: #8892b0;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); font-size: 13px; padding: 15px; line-height: 1.6; }
-
-        .header { 
-            background: linear-gradient(90deg, #09172c 0%, #12092c 100%); 
-            border: 1px solid var(--accent-radar); 
-            border-radius: 8px; 
-            padding: 15px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 15px; 
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15); 
-        }
-        .header h1 { font-size: 16px; color: var(--accent-radar); font-weight: bold; }
-        .badge { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
-
-        .card { background: var(--panel-bg); border: 1px solid var(--border-ui); border-radius: 8px; padding: 15px; }
-        .card-title { font-size: 13px; font-weight: bold; color: var(--accent-radar); margin-bottom: 12px; border-bottom: 1px solid var(--border-ui); padding-bottom: 6px; }
-
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .metric-box { background: #060f1c; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; }
-        .metric-box span { font-size: 11px; color: var(--text-dim); display: block; }
-        .metric-box strong { font-size: 15px; color: #fff; display: block; margin-top: 4px; }
-
-        .btn { background: #0c1c33; color: #fff; border: 1px solid #1f4068; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: right; font-size: 12px; transition: 0.2s; }
-        .btn:hover { border-color: var(--accent-radar); background: #132a4d; }
-        .btn-danger { border-color: var(--accent-danger); color: #ffa8b8; }
-
-        .console { background: #03070d; border: 1px solid var(--border-ui); border-radius: 6px; padding: 10px; height: 140px; overflow-y: auto; font-family: monospace; font-size: 11px; color: var(--accent-radar); }
-
-        /* Legal Box Style */
-        .legal-box {
-            background: rgba(10, 20, 35, 0.95);
-            border: 1px solid var(--accent-radar);
-            border-right: 4px solid var(--accent-radar);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            color: #e6f1ff;
-            line-height: 1.8;
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.1);
-        }
-        .legal-box h3 { color: var(--accent-radar); margin-bottom: 10px; font-size: 14px; }
-        .legal-box p { margin-bottom: 10px; }
-
-        .footer-card { background: #07101d; border: 1px solid var(--border-ui); padding: 15px 20px; border-radius: 6px; }
-        .footer-card code { color: var(--accent-radar); font-size: 13px; font-weight: bold; }
+        :root { --bg: #050b14; --panel: rgba(10,20,35,0.85); --cyan: #00e5ff; --text: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,229,255,0.2); padding-bottom: 15px; margin-bottom: 25px; }
+        h1 { color: var(--cyan); font-size: 1.5rem; }
+        .back-btn { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid var(--cyan); padding: 8px 16px; border-radius: 8px; text-decoration: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--panel); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; padding: 20px; }
+        .card h3 { color: var(--cyan); margin-bottom: 10px; }
+        footer { text-align: center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; color: #94a3b8; }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>پنل فرماندهی عملیات پهپاد رادار گریز</h1>
-        <span class="badge">STEALTH ACTIVE | HIL SIMULINK</span>
-    </div>
-
-    <div class="grid-container">
-        <div class="card">
-            <div class="card-title">مشخصات سطح مقطع راداری (RCS) و سنسورهای پسیو</div>
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <span>سطح مقطع راداری پیشانی (Frontal RCS):</span>
-                    <strong style="color: var(--accent-green);">0.0001 m² (پنهان‌کاری کامل)</strong>
-                </div>
-                <div class="metric-box">
-                    <span>باندهای کشف راداری دشمن:</span>
-                    <strong>X / Ku / S Band Jammed</strong>
-                </div>
-                <div class="metric-box">
-                    <span>امضای حرارتی موتور (IR Signature):</span>
-                    <strong>کنترل‌شده / نازل برودتی پسیو</strong>
-                </div>
-                <div class="metric-box">
-                    <span>مد ناوبری جنگ الکترونیک:</span>
-                    <strong style="color: var(--accent-radar);">پسیو مستقل بدون انتشار (Silent)</strong>
-                </div>
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-crosshairs"></i> پنل فرماندهی عملیات پهپاد رادار گریز</h1>
+            <a href="https://hlth3al.github.io/Hossein-Laaliyan-AI/" class="back-btn"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+        </header>
+        <div class="grid">
+            <div class="card">
+                <h3><i class="fa-solid fa-radar"></i> وضعیت سطح مقطع راداری (RCS)</h3>
+                <p>میزان سطح مقطع راداری پهپاد در پایین‌ترین حد ممکن قرار دارد (0.001 m²). سیستم استتار فعال هوشمند عمل می‌کند.</p>
             </div>
-            <div style="background: #060f1c; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; margin-top: 10px;">
-                <span style="font-size: 11px; color: var(--text-dim);">مسیر بهینه‌سازی شده دالان پرواز امن:</span>
-                <div style="font-size: 14px; font-weight: bold; color: var(--accent-radar); margin-top: 4px;">کریدور نفوذ عمقی بر مبنای نقشه‌های هم‌پوشانی راداری دشمن</div>
+            <div class="card">
+                <h3><i class="fa-solid fa-route"></i> مسیریابی بهینه کم‌ریسک</h3>
+                <p>مسیر پرواز بر اساس هوش مصنوعی برای دور زدن رادارهای دشمن و سامانه‌های پدافندی تنظیم شده است.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-microchip"></i> سنسورهای حرارتی و اپتیکی</h3>
+                <p>تحلیل بلادرنگ تصویربرداری مادون قرمز و حرارتی با دقت ۹۹.۸٪ فعال می‌باشد.</p>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-title">فرمان‌های تاکتیکی و مدیریت ماموریت نفوذ رادارگریز</div>
-            <button class="btn" onclick="triggerAction('SILENT')">🛡️ فعال‌سازی سکوت مطلق رادیویی و سنسورهای پسیو ناوبری</button>
-            <button class="btn" onclick="triggerAction('EW')">⚡ پرتاب موج فریبنده راداری و جنگ الکترونیک فعال (ECM)</button>
-            <button class="btn btn-danger" onclick="triggerAction('ABORT')">⚠️ دستور تغییر سریع دالان به مسیر بازگشت اضطراری به آشیانه</button>
-            <div class="console" id="logBox" style="margin-top: 10px;">
-                <div>[سیستم] اتصال پل ارتباطی به سنسورها و شبیه‌ساز دینامیک پرواز برقرار است.</div>
-            </div>
-        </div>
+        <footer>طراحی و توسعه مهندسی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری) | شرکت صنایع پردرآمد تهرانیها</footer>
     </div>
-
-    <!-- کادر بیانیه حقوقی و فنی سیستم -->
-    <div class="legal-box">
-        <h3>بیانیه حقوقی و فنی سیستم (Demo Verification):</h3>
-        <p>جهت ممانعت از کپی‌برداری غیرمجاز و حفظ حقوق مالکیت فکری، این نسخه ارائه‌شده صرفاً یک دمو با داده‌های نمونه و تقلیل‌یافته (Synthetic/Minimal) می‌باشد. در صورت ثبت سفارش صنعتی، پنل نهایی به‌صورت تکاملی توسعه یافته و از طریق پروتکل‌های سخت‌افزاری صنعتی (HIL) به لبه‌های پردازشی واقعی (Real-Time Sensors Edge)، داده‌های مدل‌های شبیه‌ساز Simulink متصل می‌گردد تا کمترین ضریب خطا محاسبه نماید.</p>
-        <p>و هر زمان پل واقعی Simulink/HIL و سنسورهای هوش مصنوعی لبه فدرال متصل شوند، سیستم آماده دریافت اطلاعات زنده خواهد بود.</p>
-    </div>
-
-    <div class="footer-card">
-        <p>طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong></p>
-        <p>رایانامه رسمی ارتباطات صنعتی: <code>ai.algorithms.ballistics@gmail.com</code></p>
-    </div>
-
-    <script>
-        function triggerAction(type) {
-            const log = document.getElementById('logBox');
-            const time = new Date().toLocaleTimeString('fa-IR');
-            let text = "";
-            if(type === 'SILENT') text = `[${time}] حالت سکوت رادیویی اعمال شد: تمام فرستنده‌ها خاموش و سنسورهای پسیو مادون‌قرمز فعال شدند.`;
-            else if(type === 'EW') text = `[${time}] سیستم جنگ الکترونیک فعال شد: سیگنال‌های فریب راداری تولید و در فضا تزریق گردید.`;
-            else if(type === 'ABORT') text = `[${time}] کریدور بازگشت اضطراری با حداقل دیده‌شدگی راداری محاسبه و به خلبان خودکار تزریق شد.`;
-            const item = document.createElement('div');
-            item.innerText = text;
-            log.appendChild(item);
-            log.scrollTop = log.scrollHeight;
-        }
-    </script>
 </body>
 </html>
