@@ -3,44 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پنل فرماندهی عملیات پهپاد رادار گریز | هوش مصنوعی حسین لعلیان</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>پنل فرماندهی عملیات پهپاد رادار گریز</title>
+
+    <!-- Leaflet & Chart.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        :root { --bg: #050b14; --panel: rgba(10,20,35,0.85); --cyan: #00e5ff; --text: #f8fafc; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,229,255,0.2); padding-bottom: 15px; margin-bottom: 25px; }
-        h1 { color: var(--cyan); font-size: 1.5rem; }
-        .back-btn { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid var(--cyan); padding: 8px 16px; border-radius: 8px; text-decoration: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: var(--panel); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; padding: 20px; }
-        .card h3 { color: var(--cyan); margin-bottom: 10px; }
-        footer { text-align: center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; color: #94a3b8; }
+        :root {
+            --bg-color: #080c14;
+            --panel-bg: rgba(16, 26, 44, 0.85);
+            --border-color: #1e2d4a;
+            --accent-radar: #00f2ff;
+            --accent-warning: #ffaa00;
+            --accent-danger: #ff3366;
+            --accent-stealth: #7b2cbf;
+            --accent-green: #00ff66;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, rgba(8,12,20,1) 0%, rgba(16,26,44,1) 50%, rgba(8,12,20,1) 100%);
+            border-bottom: 2px solid var(--accent-radar);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .header-title h1 {
+            font-size: 1.4rem;
+            color: var(--accent-radar);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-status {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.4);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 15px;
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .panel-header {
+            font-size: 1rem;
+            color: var(--accent-radar);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .metric-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .radar-box {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background: radial-gradient(circle, rgba(0,242,255,0.05) 0%, rgba(8,12,20,0.95) 70%);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 0;
+            right: 0;
+            background: linear-gradient(45deg, rgba(0,242,255,0.4) 0%, transparent 70%);
+            transform-origin: bottom left;
+            animation: sweep 4s linear infinite;
+            border-bottom: 1px solid var(--accent-radar);
+        }
+
+        @keyframes sweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .radar-grid-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px dashed rgba(0,242,255,0.2);
+        }
+
+        .control-btn {
+            background: linear-gradient(180deg, rgba(30,45,74,1) 0%, rgba(16,26,44,1) 100%);
+            border: 1px solid var(--accent-radar);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: justify;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: var(--accent-radar);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-radar);
+        }
+
+        .control-btn.danger {
+            border-color: var(--accent-danger);
+        }
+        .control-btn.danger:hover {
+            background: var(--accent-danger);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-danger);
+        }
+
+        #map {
+            width: 100%;
+            height: 380px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 180px;
+            width: 100%;
+        }
+
+        /* Legal Box Style */
+        .legal-box {
+            background: rgba(16, 26, 44, 0.95);
+            border: 1px solid var(--accent-radar);
+            border-right: 4px solid var(--accent-radar);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px;
+            color: #e2e8f0;
+            line-height: 1.8;
+            box-shadow: 0 0 12px rgba(0, 242, 255, 0.1);
+        }
+        .legal-box h3 { color: var(--accent-radar); margin-bottom: 10px; font-size: 0.95rem; }
+        .legal-box p { margin-bottom: 10px; font-size: 0.85rem; }
+
+        footer {
+            background: rgba(8,12,20,0.95);
+            border-top: 1px solid var(--border-color);
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fa-solid fa-crosshairs"></i> پنل فرماندهی عملیات پهپاد رادار گریز</h1>
-            <a href="https://hlth3al.github.io/Hossein-Laaliyan-AI/" class="back-btn"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
-        </header>
-        <div class="grid">
-            <div class="card">
-                <h3><i class="fa-solid fa-radar"></i> وضعیت سطح مقطع راداری (RCS)</h3>
-                <p>میزان سطح مقطع راداری پهپاد در پایین‌ترین حد ممکن قرار دارد (0.001 m²). سیستم استتار فعال هوشمند عمل می‌کند.</p>
+
+    <header>
+        <div class="header-title">
+            <h1>پنل فرماندهی عملیات پهپاد رادار گریز</h1>
+        </div>
+        <div class="header-status">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>HIL Simulink: متصل</span>
             </div>
-            <div class="card">
-                <h3><i class="fa-solid fa-route"></i> مسیریابی بهینه کم‌ریسک</h3>
-                <p>مسیر پرواز بر اساس هوش مصنوعی برای دور زدن رادارهای دشمن و سامانه‌های پدافندی تنظیم شده است.</p>
-            </div>
-            <div class="card">
-                <h3><i class="fa-solid fa-microchip"></i> سنسورهای حرارتی و اپتیکی</h3>
-                <p>تحلیل بلادرنگ تصویربرداری مادون قرمز و حرارتی با دقت ۹۹.۸٪ فعال می‌باشد.</p>
+            <div class="status-item">
+                <span>وضعیت پنهان‌کاری: <strong style="color: var(--accent-green);">۱۰۰٪ (پسیو)</strong></span>
             </div>
         </div>
-        <footer>طراحی و توسعه مهندسی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری) | شرکت صنایع پردرآمد تهرانیها</footer>
+    </header>
+
+    <div class="main-container">
+        <!-- پنل سمت راست (کنترل و تلمتری اولیه) -->
+        <div class="panel">
+            <div class="panel-header">
+                <span>تلمتری دینامیک پرواز</span>
+                <small style="color: var(--accent-radar);">سنسورهای فدرال</small>
+            </div>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-label">ارتفاع پروازی (Alt)</div>
+                    <div class="metric-value" id="val-alt">۳۸,۵۰۰ ft</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">سرعت کروز (Mach)</div>
+                    <div class="metric-value" id="val-speed">0.92 M</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">سطح مقطع راداری (RCS)</div>
+                    <div class="metric-value" style="color: var(--accent-green);">0.0001 m²</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">دمای نازل موتور</div>
+                    <div class="metric-value" id="val-temp">۴۲۰ °C</div>
+                </div>
+            </div>
+
+            <div class="panel-header">
+                <span>کشف حرارتی و الکترومغناطیس پسیو (IR/EM)</span>
+            </div>
+
+            <div class="radar-box">
+                <div class="radar-sweep"></div>
+                <div class="radar-grid-line" style="width: 80%; height: 80%;"></div>
+                <div class="radar-grid-line" style="width: 50%; height: 50%;"></div>
+                <div class="radar-grid-line" style="width: 20%; height: 20%;"></div>
+            </div>
+
+            <button class="control-btn" onclick="toggleStealth()">
+                ⚡ بهینه‌سازی دینامیک پروفایل پنهان‌کاری (ANFIS)
+            </button>
+            <button class="control-btn danger" onclick="triggerEmergency()">
+                ⚠️ فعال‌سازی حالت جنگ الکترونیک پسیو و فریب راداری
+            </button>
+        </div>
+
+        <!-- پنل وسط (نقشه تاکتیکی و کریدور پرواز) -->
+        <div class="panel">
+            <div class="panel-header">
+                <span>نقشه هم‌پوشانی پوشش راداری و مسیر بهینه نفوذ</span>
+                <span style="font-size:0.75rem; color:var(--text-muted);">به‌روزرسانی زنده</span>
+            </div>
+            <div id="map"></div>
+            
+            <div class="chart-container">
+                <canvas id="rcsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- پنل سمت چپ (آنالیز پایداری و الگوریتم‌های هوش مصنوعی) -->
+        <div class="panel">
+            <div class="panel-header">
+                <span>تحلیل آنالیز پایداری فازی-عصبی</span>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">ضریب پایداری الگوریتم هدایت:</div>
+                <div class="metric-value" style="color: var(--accent-radar);">۹۹.۴٪</div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="stabilityChart"></canvas>
+            </div>
+
+            <div class="panel-header">
+                <span>گزارشات عملیاتی سیستم</span>
+            </div>
+            
+            <div id="logBox" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); height: 120px; border-radius: 6px; padding: 8px; font-size: 0.75rem; overflow-y: auto; color: var(--accent-radar);">
+                <div>[سیستم] اتصال بی‌درنگ به پل شبیه‌ساز Simulink برقرار شد.</div>
+                <div>[ناوبری] مسیر پروازی پنهانکار بدون ورود به لوب‌های اصلی رادار دشمن محاسبه گردید.</div>
+            </div>
+        </div>
     </div>
+
+    <!-- کادر بیانیه حقوقی و فنی سیستم -->
+    <div class="legal-box">
+        <h3>بیانیه حقوقی و فنی سیستم (Demo Verification):</h3>
+        <p>جهت ممانعت از کپی‌برداری غیرمجاز و حفظ حقوق مالکیت فکری، این نسخه ارائه‌شده صرفاً یک دمو با داده‌های نمونه و تقلیل‌یافته (Synthetic/Minimal) می‌باشد. در صورت ثبت سفارش صنعتی، پنل نهایی به‌صورت تکاملی توسعه یافته و از طریق پروتکل‌های سخت‌افزاری صنعتی (HIL) به لبه‌های پردازشی واقعی (Real-Time Sensors Edge)، داده‌های مدل‌های شبیه‌ساز Simulink متصل می‌گردد تا کمترین ضریب خطا محاسبه نماید.</p>
+        <p>و هر زمان پل واقعی Simulink/HIL و سنسورهای هوش مصنوعی لبه فدرال متصل شوند، سیستم آماده دریافت اطلاعات زنده خواهد بود.</p>
+    </div>
+
+    <footer>
+        <div>طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong></div>
+        <div>رایانامه ارتباطات صنعتی: <code>ai.algorithms.ballistics@gmail.com</code></div>
+    </footer>
+
+    <script>
+        // Leaflet Map Initialization
+        const map = L.map('map').setView([32.4279, 53.6880], 5);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Stealth Route Line
+        const latlngs = [
+            [35.6892, 51.3890],
+            [34.6401, 50.8764],
+            [32.6546, 51.6680],
+            [30.2839, 57.0834]
+        ];
+        const polyline = L.polyline(latlngs, {color: '#00f2ff', weight: 3, dashArray: '5, 10'}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+
+        // Radar Threat Zones
+        L.circle([33.5000, 52.5000], {
+            color: '#ff3366',
+            fillColor: '#ff3366',
+            fillOpacity: 0.15,
+            radius: 120000
+        }).addTo(map);
+
+        // Chart.js RCS Chart
+        const ctxRcs = document.getElementById('rcsChart').getContext('2d');
+        const rcsChart = new Chart(ctxRcs, {
+            type: 'line',
+            data: {
+                labels: ['0°', '30°', '60°', '90°', '120°', '150°', '180°'],
+                datasets: [{
+                    label: 'تغییرات RCS نسبت به زاویه تابش امواج رادار (dBsm)',
+                    data: [-40, -35, -25, -15, -28, -36, -42],
+                    borderColor: '#00f2ff',
+                    backgroundColor: 'rgba(0, 242, 255, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 10 } } } },
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e2d4a' } },
+                    y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e2d4a' } }
+                }
+            }
+        });
+
+        // Stability Chart
+        const ctxStab = document.getElementById('stabilityChart').getContext('2d');
+        const stabChart = new Chart(ctxStab, {
+            type: 'doughnut',
+            data: {
+                labels: ['پایداری دینامیکی', 'حاشیه فاز امن', 'خطای مدلسازی'],
+                datasets: [{
+                    data: [85, 12, 3],
+                    backgroundColor: ['#00f2ff', '#00ff66', '#ff3366']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 9 } } } }
+            }
+        });
+
+        function toggleStealth() {
+            const log = document.getElementById('logBox');
+            log.innerHTML += `<div>[تطبیق ANFIS] بهینه‌سازی الگوریتم سطح مقطع راداری مجدداً همگرا شد.</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function triggerEmergency() {
+            const log = document.getElementById('logBox');
+            log.innerHTML += `<div style="color:var(--accent-danger);">[هشدار] مد فریب راداری پسیو فعال شد. انتقال فرکانس خودکار انجام گرفت.</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+    </script>
 </body>
 </html>
