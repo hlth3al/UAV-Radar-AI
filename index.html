@@ -3,201 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پنل فرماندهی عملیات پهپاد رادار گریز | حسین لعلیان</title>
-<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<title>پنل، داشبورد و پلتفرم فرماندهی عملیات پهپاد رادار گریز | UAV-Radar-AI</title>
 <style>
 :root {
-  --bg: #0b0f19;
-  --panel: #111827;
-  --border: #1f2937;
-  --cyan: #06b6d4;
-  --cyan-glow: rgba(6, 182, 212, 0.35);
-  --green: #10b981;
-  --red: #ef4444;
-  --text: #f9fafb;
-  --muted: #9ca3af;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; }
-body { background: var(--bg); color: var(--text); padding: 15px; display: flex; justify-content: center; }
-.app { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 15px; }
-
-header.top {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-h1 { font-size: 1.4rem; color: #fff; margin-bottom: 4px; }
-.subtitle { font-size: 0.88rem; color: #38bdf8; font-weight: 500; }
-.pills { display: flex; gap: 8px; flex-wrap: wrap; }
-.pill {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
-  color: var(--muted);
-}
-.pill.sync {
-  border-color: var(--cyan);
-  color: var(--cyan);
-  background: rgba(6,182,212,0.1);
-  box-shadow: 0 0 10px var(--cyan-glow);
+  --bg-main: #060d17;
+  --panel-bg: rgba(10, 24, 40, 0.92);
+  --border-ui: #1e3a5f;
+  --accent-cyan: #00f2ff;
+  --accent-gold: #f59e0b;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --text-light: #f8fafc;
+  --text-dim: #94a3b8;
 }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.h { font-weight: 700; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-.sub { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+body { background-color: var(--bg-main); color: var(--text-light); font-size: 13px; padding: 15px; line-height: 1.6; }
 
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.metric-box {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
+.header {
+  background: #091a2e; border: 1px solid var(--accent-cyan); border-radius: 8px;
+  padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 15px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
 }
-.m-title { font-size: 0.75rem; color: var(--muted); }
-.m-val { font-size: 1.15rem; font-weight: 700; color: var(--cyan); margin-top: 4px; }
+.header h1 { font-size: 16px; color: var(--accent-cyan); }
+.badge {
+  background: rgba(16, 185, 129, 0.15); color: var(--accent-green);
+  border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: bold;
+}
 
-.radar-wrap {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  background: #070a12;
-  border-radius: 8px;
-  border: 1px solid #1e293b;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.radar-circle {
-  position: absolute;
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  border-radius: 50%;
-}
-.radar-sweep {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 70%, rgba(6, 182, 212, 0.4) 100%);
-  animation: sweep 4s linear infinite;
-}
-@keyframes sweep { 100% { transform: rotate(360deg); } }
+.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+@media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
 
-.log-box {
-  background: #070a12;
-  border: 1px solid #1e293b;
-  border-radius: 8px;
-  padding: 10px;
-  font-family: monospace;
-  font-size: 0.8rem;
-  height: 140px;
-  overflow-y: auto;
-  color: #a5f3fc;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.card { background: var(--panel-bg); border: 1px solid var(--border-ui); border-radius: 8px; padding: 15px; }
+.card-title { font-size: 14px; font-weight: bold; color: var(--accent-cyan); margin-bottom: 12px; border-bottom: 1px solid var(--border-ui); padding-bottom: 6px; }
+
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.metric-box { background: #081626; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; }
+.metric-box span { font-size: 11px; color: var(--text-dim); display: block; }
+.metric-box strong { font-size: 15px; color: #fff; display: block; margin-top: 4px; }
+
+.btn {
+  background: #0f2742; color: #fff; border: 1px solid #1e4976; padding: 10px;
+  border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 8px;
+  text-align: right; font-size: 12px; transition: 0.2s;
+}
+.btn:hover { border-color: var(--accent-cyan); background: #173d66; }
+.btn-danger { border-color: var(--accent-red); color: #fca5a5; }
+
+.console {
+  background: #030a12; border: 1px solid var(--border-ui); border-radius: 6px;
+  padding: 10px; height: 130px; overflow-y: auto; font-family: monospace;
+  font-size: 11px; color: #38bdf8;
 }
 
 .legal-box {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 0.85rem;
+  background: rgba(8, 22, 36, 0.95);
+  border: 1px solid var(--accent-gold);
+  border-right: 4px solid var(--accent-gold);
+  padding: 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  color: #e2e8f0;
   line-height: 1.8;
-  color: #fca5a5;
-  text-align: justify;
 }
-.legal-box strong { color: #fff; display: block; margin-bottom: 6px; font-size: 0.95rem; }
+.legal-box h3 { color: var(--accent-gold); margin-bottom: 8px; font-size: 14px; }
+
+.accordion-wrapper { margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+.acc-btn { 
+  background: #0b1e33; color: #f8fafc; border: 1px solid #1e3a5f; border-right: 4px solid var(--accent-cyan); 
+  padding: 12px 15px; border-radius: 6px; cursor: pointer; width: 100%; text-align: right; font-size: 13px; font-weight: bold; 
+  display: flex; justify-content: space-between; align-items: center; transition: 0.2s;
+}
+.acc-btn:hover { background: #122f50; border-color: var(--accent-cyan); }
+.acc-content { 
+  display: none; background: #061322; border: 1px solid #162e4a; border-top: none; 
+  border-radius: 0 0 6px 6px; padding: 15px 18px; font-size: 12.5px; line-height: 1.85; color: #cbd5e1; 
+}
+.acc-content h4 { color: var(--accent-cyan); margin-bottom: 6px; font-size: 13px; }
+
+.footer-card { background: #071422; border: 1px solid var(--border-ui); padding: 15px 20px; border-radius: 6px; }
+.footer-card code { color: var(--accent-gold); font-size: 13px; font-weight: bold; }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <header class="top">
-    <div>
-      <h1>پنل فرماندهی عملیات پهپاد رادار گریز</h1>
-      <div class="subtitle">برگرفته از پرپوزال حسین لعلیان سال ۱۳۹۵ - رتبه ۳۲ کنکور دکتری</div>
-    </div>
-    <div class="pills">
-      <span class="pill sync">HIL SYNCED</span>
-      <span class="pill">MOPSO ACTIVE</span>
-      <span class="pill">ANFIS</span>
-      <span class="pill">لینک فدرال</span>
-      <span class="pill">Simulink</span>
-    </div>
-  </header>
-
-  <main class="grid">
-    <section class="card">
-      <div class="h"><span>تلمتری دینامیک پرواز</span><span>سنسورهای فدرال</span></div>
-      <div class="metrics-grid">
-        <div class="metric-box">
-          <div class="m-title">ارتفاع پروازی (Alt)</div>
-          <div class="m-val">۳۸,۵۰۰ ft</div>
-        </div>
-        <div class="metric-box">
-          <div class="m-title">سرعت کروز (Mach)</div>
-          <div class="m-val">0.92 M</div>
-        </div>
-        <div class="metric-box">
-          <div class="m-title">سطح مقطع راداری (RCS)</div>
-          <div class="m-val">0.0001 m²</div>
-        </div>
-        <div class="metric-box">
-          <div class="m-title">دمای نازل موتور</div>
-          <div class="m-val">۴۲۰ °C</div>
-        </div>
-      </div>
-      <div class="sub">کشف حرارتی و الکترومغناطیس پسیو (IR/EM) با هدایت فازی آنلاین پایش می‌شود.</div>
-    </section>
-
-    <section class="card">
-      <div class="h"><span>نقشه پوشش راداری و مسیر نفوذ</span><span>به‌روزرسانی زنده</span></div>
-      <div class="radar-wrap">
-        <div class="radar-circle" style="width: 200px; height: 200px;"></div>
-        <div class="radar-circle" style="width: 140px; height: 140px;"></div>
-        <div class="radar-circle" style="width: 80px; height: 80px;"></div>
-        <div class="radar-sweep"></div>
-      </div>
-      <div class="sub">مسیر بهینه بدون ورود به لوب‌های کشف رادارهای آرایه فازی پسیو تعیین شده است.</div>
-    </section>
-
-    <section class="card" style="grid-column: 1 / -1;">
-      <div class="h"><span>تحلیل پایداری و لاگ‌های عملیاتی HIL</span><span>Simulink Real-Time</span></div>
-      <div class="log-box">
-        <div>[سیستم] اتصال بی‌درنگ به پل شبیه‌ساز Simulink برقرار شد.</div>
-        <div>[ناوبری] مسیر پروازی پنهانکار بر مبنای حل‌کننده MOPSO استخراج گردید.</div>
-        <div>[سنسورها] تجمیع داده‌های توزیع‌شده به روش یادگیری فدرال با ضریب پایداری ۹۹.۴٪ تأیید شد.</div>
-        <div>[کنترل] زاویه حمله و پایداری دینامیکی در محدوده نامی قرار دارد.</div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="legal-box">
-    <strong>بیانیه حقوقی و فنی سیستم (Demo Verification):</strong>
-    جهت ممانعت از کپی‌برداری غیرمجاز و حفظ حقوق مالکیت فکری، این نسخه ارائه‌شده صرفاً یک دمو با داده‌های نمونه و تقلیل‌یافته (Synthetic/Minimal) می‌باشد. در صورت ثبت سفارش صنعتی، پنل نهایی به‌صورت تکاملی توسعه یافته و از طریق پروتکل‌های سخت‌افزاری صنعتی (HIL) به لبه‌های پردازشی واقعی (Real-Time Sensors Edge)، داده‌های مدل‌های شبیه‌ساز Simulink متصل می‌گردد تا کمترین ضریب خطا محاسبه نماید. و هر زمان پل واقعی Simulink/HIL و سنسورهای هوش مصنوعی لبه فدرال متصل شوند، سیستم آماده دریافت اطلاعات زنده خواهد بود.
-  </footer>
+<div class="header">
+  <div>
+    <h1>📡 پنل، داشبورد و پلتفرم فرماندهی عملیات پهپاد رادار گریز</h1>
+    <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">ناوبری هوشمند خودمختار، کنترل سطح مقطع راداری (RCS) و ره‌گیری تاکتیکی</div>
+  </div>
+  <div class="badge">SECURE DATA-LINK ACTIVE</div>
 </div>
 
+<div class="grid-container">
+  <div class="card">
+    <div class="card-title">تله‌متری و وضعیت بازتاب راداری</div>
+    <div class="metrics-grid">
+      <div class="metric-box"><span>سطح مقطع راداری (RCS):</span><strong style="color: var(--accent-green);">&lt; 0.001 m²</strong></div>
+      <div class="metric-box"><span>ارتفاع عملیاتی:</span><strong>۳۲,۰۰۰ پا</strong></div>
+      <div class="metric-box"><span>وضعیت پیوند ماهواره‌ای:</span><strong style="color: var(--accent-cyan);">رمزگذاری‌شده (AES-256)</strong></div>
+      <div class="metric-box"><span>الگوریتم فرار از قفل رادار:</span><strong>ANFIS/PSO لبه</strong></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">کنسول فرماندهی عملیات</div>
+    <button class="btn" onclick="triggerAction('RCS_OPTIMIZE')">🎯 بهینه‌سازی فعال زاویه سطوح برای کاهش RCS</button>
+    <button class="btn" onclick="triggerAction('SILENT_MODE')">🔇 سایلنت مود رادیویی و خاموشی فعال امواج</button>
+    <button class="btn btn-danger" onclick="triggerAction('ABORT_MISSION')">⚠️ بازگشت اضطراری و انهدام پیوند رادیویی</button>
+    <div class="console" id="consoleLog"><div>[سامانه] دیتالینک تاکتیکی برقرار و وضعیت رادارگریزی در حد استاندارد است.</div></div>
+  </div>
+</div>
+
+<div class="legal-box">
+  <h3>بیانیه حقوقی (برگرفته از پرپوزال حسین لعلیان سال۱۳۹۵):</h3>
+  <p>این سامانه پیاده‌سازی متمرکز الگوریتم‌های ناوبری، کاهش سطح مقطع راداری (RCS) و کنترل لبه در پرنده‌های پنهان‌کار بر مبنای مستندات و پرپوزال سال ۱۳۹۵ مهندس حسین لعلیان می‌باشد. کلیه حقوق مادی و معنوی، کدهای منبع و الگوهای پایگاه داده متعلق به ایشان بوده و هرگونه کپی‌برداری غیرمجاز یا بهره‌برداری پیگرد قانونی دارد.</p>
+</div>
+
+<!-- بخش دکمه‌های آکاردئونی متناسب‌شده برای پهپاد رادارگریز -->
+<div class="accordion-wrapper">
+  <!-- دکمه ۱ -->
+  <div>
+    <button class="acc-btn" onclick="toggleAccordion(1)"><span>📌 دکمه ۱: طرح توجیهی عملیاتی پلتفرم فرماندهی پهپاد رادارگریز</span><span id="icon-1">▼</span></button>
+    <div class="acc-content" id="acc-1">
+      <h4>بقا در عمق مناطق پدافندی و تضمین انهدام اهداف راهبردی</h4>
+      <p>پرنده‌های بدون سرنشین در مواجهه با شبکه‌های پدافند یکپارچه مدرن با دو تهدید جدی روبرو هستند: شناسایی زودهنگام توسط رادارهای آرایه فازی و رهگیری سیگنال‌های هدایت و تله‌متری پرواز. این سامانه با پیاده‌سازی هوش مصنوعی لبه، مسیر پرواز را به طور خودکار براساس زاویه تابش امواج راداری بهینه‌سازی کرده و کمترین بازتاب راداری ممکن (RCS) را حفظ می‌نماید.</p>
+    </div>
+  </div>
+
+  <!-- دکمه ۲ -->
+  <div>
+    <button class="acc-btn" onclick="toggleAccordion(2)"><span>⚙️ دکمه ۲: مکانیزم کاری و ارزش پیشنهادی سامانه</span><span id="icon-2">▼</span></button>
+    <div class="acc-content" id="acc-2">
+      <h4>دیده‌بانی یکپارچه و بهینه‌سازی بلادرنگ زاویه حمله:</h4>
+      <p>سامانه به طور پیوسته منابع راداری کشف‌شده را موقعیت‌یابی کرده و با تنظیم برداری فلپ‌ها، سکان‌ها و وضعیت پروازی پهپاد، سطح مقطع راداری در دید رادار دشمن را به زیر صفر ممیز یک‌هزارم متر مربع می‌رساند. کلیه محاسبات به صورت لبه (Edge AI) اجرا شده و بدون نیاز به ارسال امواج رادیویی، سکوت کامل سیگنالی پرنده تضمین می‌گردد.</p>
+    </div>
+  </div>
+
+  <!-- دکمه ۳ -->
+  <div>
+    <button class="acc-btn" onclick="toggleAccordion(3)"><span>🧭 دکمه ۳: مسیر عملیاتی این پنل تاکتیکی</span><span id="icon-3">▼</span></button>
+    <div class="acc-content" id="acc-3">
+      <h4>ترسیم دالان نفوذ و فرامین خودکار کنترل زاویه پرواز:</h4>
+      <p>این پنل صرفاً یک صفحه مانیتورینگ نیست؛ بلکه هسته صدور فرامین ناوبری کور و مانورهای گریز است. به محض نزدیک شدن پرنده به حباب راداری سامانه‌های تهدید، الگوریتم بهینه‌سازی وارد عمل شده و کریدور ارتفاعی و زاویه تابش را برای سیستم هدایت خودکار خلبان خودکار (Autopilot) بازنویسی می‌کند.</p>
+    </div>
+  </div>
+
+  <!-- دکمه ۴ -->
+  <div>
+    <button class="acc-btn" onclick="toggleAccordion(4)"><span>📝 دکمه ۴: نکات کلیدی قرارداد و تعهدات فنی</span><span id="icon-4">▼</span></button>
+    <div class="acc-content" id="acc-4">
+      <h4>محدوده مسئولیت و محرمانگی نظامی:</h4>
+      <p>۱. عملکرد تخمین RCS بر پایه دقت سنسورهای دریافت هشدار راداری (RWR) و ژیروسکوپ‌های داخلی پرنده است. ۲. کلیه الگوریتم‌ها و ساختار کدهای هدایت به طور کامل آفلاین بوده و محرمانگی داده‌ها مطابق پروتکل‌های امنیتی تضمین می‌گردد. ۳. تحویل پروژه با تست شبیه‌سازی در تونل امواج الکترومغناطیسی و تست محیطی HIL با تأیید شاخص‌های کارایی همراه خواهد بود.</p>
+    </div>
+  </div>
+
+  <!-- دکمه ۵ -->
+  <div>
+    <button class="acc-btn" onclick="toggleAccordion(5)"><span>💼 دکمه ۵: مدل‌های پیشنهادی استقرار و واگذاری</span><span id="icon-5">▼</span></button>
+    <div class="acc-content" id="acc-5">
+      <h4>مدل اول (توسعه و استقرار مشترک):</h4>
+      <p>پیاده‌سازی الگوریتم رادارگریزی روی پلتفرم ناوبری و اویونیک پهپاد با دریافت هزینه بر اساس موفقیت‌آمیز بودن تست‌های راداری میدانی و آزمون نفوذ به حباب‌های پدافندی فرضی.</p>
+      <h4>مدل دوم (واگذاری لایسنس ماژول نرم‌افزاری اویونیک):</h4>
+      <p>فروش لایسنس کامل ماژول محاسباتی RCS و خلبان خودکار به همراه پشتیبانی سالیانه، ارتقای الگوریتم‌ها و کالیبراسیون سنسورها برای یگان‌های هوادریای پدافندی و نظامی.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer-card">
+  <div style="font-size: 12px; margin-bottom: 5px;">طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong></div>
+  <div>رایانامه رسمی: <code>ai.algorithms.ballistics@gmail.com</code></div>
+</div>
+
+<script>
+function triggerAction(type) {
+  const log = document.getElementById('consoleLog');
+  const time = new Date().toLocaleTimeString('fa-IR');
+  log.innerHTML += `<div>[${time}] فرمان عملیاتی ${type} با موفقیت صادر شد.</div>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+function toggleAccordion(id) {
+  const content = document.getElementById('acc-' + id);
+  const icon = document.getElementById('icon-' + id);
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
+    icon.innerText = '▼';
+  } else {
+    content.style.display = 'block';
+    icon.innerText = '▲';
+  }
+}
+</script>
 </body>
 </html>
